@@ -47,13 +47,17 @@ def log_data():
     if request.method == 'POST':
         mood = request.form['mood']
         temperature = float(request.form['temperature'])
+        diet = request.form.get('diet', '')
+        exercise = request.form.get('exercise', '')
+        sleep_hours = float(request.form.get('sleep_hours', 0))
         notes = request.form.get('notes', '')
-        log = Log(mood=mood, temperature=temperature, notes=notes, user=user)
+        log = Log(mood=mood, temperature=temperature, diet=diet, exercise=exercise, sleep_hours=sleep_hours, notes=notes, user=user)
         db.session.add(log)
         db.session.commit()
         flash('Data logged successfully!')
         return redirect(url_for('dashboard'))
     return render_template('log_data.html')
+
 
 @app.route('/challenges')
 def challenges():
