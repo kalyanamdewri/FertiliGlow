@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FertiliGlow Challenges</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Challenges</h1>
+    <ul>
+        {% for challenge in challenges %}
+            <li>
+                <strong>{{ challenge.name }}</strong>: {{ challenge.description }} 
+                <span>(Points: {{ challenge.points }})</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
