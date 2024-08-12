@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FertiliGlow Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>FertiliGlow Dashboard</h1>
+    <p>Hello, {{ user.name }}!</p>
+    {% if in_fertility_window %}
+        <p>🌟 You are currently in your peak fertility window!</p>
+    {% else %}
+        <p>Your fertility is low today.</p>
+    {% endif %}
+    <a href="{{ url_for('log_data') }}">Log Today's Data</a>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
