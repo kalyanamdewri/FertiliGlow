@@ -28,3 +28,31 @@ class FertiliGlowApp extends StatelessWidget {
     );
   }
 }
+
+
+
+class FertiliGlowApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'FertiliGlow',
+      theme: ThemeData(
+        primaryColor: Colors.teal,
+        accentColor: Colors.orange,
+        buttonTheme: ButtonThemeData(buttonColor: Colors.teal),
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 18.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
+      home: DashboardScreen(),
+      routes: {
+        '/log_data': (context) => LogDataScreen(),
+        '/challenges': (context) => ChallengesScreen(),
+        '/leaderboard': (context) => LeaderboardScreen(),
+        '/profile': (context) => ProfileScreen(),
+      },
+    );
+  }
+}
