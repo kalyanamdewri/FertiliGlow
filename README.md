@@ -28,7 +28,7 @@ FertiliGlow is a mobile application designed to help users track their fertility
 
 1. Clone the repository:
    bash
-   git clone https://github.com/yourusername/fertiliglow.git
+   git clone https://github.com/kalyanamdewri/fertiliglow.git
    cd fertiliglow
    
 
