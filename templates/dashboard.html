@@ -14,6 +14,26 @@
     {% else %}
         <p>Your fertility is low today.</p>
     {% endif %}
+    
+    {% if predicted_fertility %}
+        <p>🔮 Predicted Fertility: {{ "High" if predicted_fertility == 1 else "Low" }}</p>
+    {% endif %}
+
+    <h2>Personalized Recommendations</h2>
+    <p>Based on your recent data, consider the following tips:</p>
+    <ul>
+        {% if latest_log.diet %}
+        <li>Diet: Ensure you're eating a balanced diet rich in vitamins and minerals.</li>
+        {% endif %}
+        {% if latest_log.exercise %}
+        <li>Exercise: Moderate exercise can help regulate your cycle.</li>
+        {% endif %}
+        {% if latest_log.sleep_hours < 7 %}
+        <li>Sleep: Try to get at least 7 hours of sleep each night for optimal health.</li>
+        {% endif %}
+        <li>Hydration: Drink plenty of water to stay hydrated.</li>
+    </ul>
+    
     <a href="{{ url_for('log_data') }}">Log Today's Data</a>
     <a href="{{ url_for('index') }}">Back to Home</a>
 </body>
