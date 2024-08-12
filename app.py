@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from models import User, Log, Challenge, Badge
 
 import datetime
+import pickle
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -33,13 +34,41 @@ user = User("Jane Doe", 28, "2024-08-01")
 def index():
     return render_template('index.html')
 
+# trained model
+with open('fertility_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+
+def predict_fertility(user_log):
+    # Prepare the data for prediction
+    input_data = pd.DataFrame([{
+        'temperature': user_log.temperature,
+        'diet': user_log.diet,
+        'exercise': user_log.exercise,
+        'sleep_hours': user_log.sleep_hours,
+        'mood': user_log.mood
+    }])
+    input_data = pd.get_dummies(input_data)
+    input_data = scaler.transform(input_data)  # Assuming the same scaler is used
+
+    # Predict fertility window
+    prediction = model.predict(input_data)
+    return prediction[0]
+
 @app.route('/dashboard')
 def dashboard():
     user = User.query.first()  # For demonstration, use the first user
     fertility_window = calculate_fertility_window(user.cycle_length)
     today = (datetime.datetime.now() - datetime.datetime.strptime(user.last_period, "%Y-%m-%d")).days
     in_fertility_window = today in fertility_window
-    return render_template('dashboard.html', user=user, in_fertility_window=in_fertility_window)
+    
+    # Predict fertility based on the latest log
+    latest_log = user.logs.order_by(Log.timestamp.desc()).first()
+    if latest_log:
+        predicted_fertility = predict_fertility(latest_log)
+    else:
+        predicted_fertility = None
+    
+    return render_template('dashboard.html', user=user, in_fertility_window=in_fertility_window, predicted_fertility=predicted_fertility)
 
 @app.route('/log_data', methods=['GET', 'POST'])
 def log_data():
